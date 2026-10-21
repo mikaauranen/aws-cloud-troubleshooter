@@ -1,8 +1,10 @@
 import json
 
+from troubleshooter import analyze_error
+
 def lambda_handler(event, context):
-    # TODO implement
+    
     return {
         'statusCode': 200,
-        'body': json.dumps(event.get("error_log"))
+        'body': json.dumps(analyze_error(event.get("error_log", "")))
     }

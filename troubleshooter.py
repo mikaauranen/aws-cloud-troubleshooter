@@ -1,19 +1,34 @@
-print("AWS Troubleshooter")
+def analyze_error(error_log):
 
-error_log = input("Syötä virheilmoitus: ")
+    if "AccessDenied" in error_log:
+        return {
+            "type": "IAM-käyttöoikeusongelma",
+            "cause": "Puuttuvat käyttöoikeudet",
+            "recommendation": "Tarkista IAM-roolin oikeudet"
+        }
+        
+        
+    elif "Task timed out" in error_log or "Status: timeout" in error_log:
+        return {
+            "type": "AWS Lambda Timeout",
+            "cause": "Funktion suoritus ylitti asetetun aikarajan",
+            "recommendation": "Tarkista CloudWatch-lokit ja Lambdan timeout-asetus"
+        }
 
-print("\nAnalysoitava virhe:")
-print(error_log)
+    else:
+        return {
+            "type": "Tuntematon virhe",
+            "cause": "Virheilmoitus ei vastaa ohjelman tunnistamia virhetyyppejä",
+            "recommendation": "Tarkista virheilmoituksen tarkka sisältö ja AWS CloudWatch -lokit"
+        }
+        
+if __name__ == "__main__":
+        
+    print("AWS Troubleshooter")
 
-if "AccessDenied" in error_log:
-    print("\nVirheen tyyppi: IAM-käyttöoikeusongelma")
-    print("Mahdollinen syy: Puuttuvat käyttöoikeudet")
-    print("Suositus: Tarkista IAM-roolin oikeudet")
-    
-elif "Task timed out" in error_log or "Status: timeout" in error_log:
-    print("Virheen tyyppi: AWS Lambda Timeout")
-    print("Mahdollinen syy: Funktion suoritus ylitti asetetun aikarajan")
-    print("Suositus: Tarkista CloudWatch-lokit ja Lambdan timeout-asetus")
+    error_log = input("Syötä virheilmoitus: ")
 
-else:
-    print("\nVirhettä ei tunnistettu")
+    print("\nAnalysoitava virhe:")
+    print(error_log)
+
+    print(analyze_error(error_log))

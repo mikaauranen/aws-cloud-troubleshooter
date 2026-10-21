@@ -19,3 +19,6 @@ __pycache__/
 *.tfvars.json
 *.tfplan
 crash.log
+
+# AWS Lambda deployment
+lambda-deployment.zip
