@@ -42,4 +42,5 @@ if __name__ == "__main__":
     print("\nAnalysoitava virhe:")
     print(error_log)
 
-    print(analyze_error(error_log))
+    print(analyze_error_with_ai(error_log))
+

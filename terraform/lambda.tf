@@ -27,7 +27,7 @@ resource "aws_lambda_function" "troubleshooter" {
   skip_destroy                   = false
   tags                           = {}
   tags_all                       = {}
-  timeout                        = 3
+  timeout                        = 30
   ephemeral_storage {
     size = 512
   }
