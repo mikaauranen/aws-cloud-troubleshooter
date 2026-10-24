@@ -22,3 +22,8 @@ crash.log
 
 # AWS Lambda deployment
 lambda-deployment.zip
+
+# Local AWS Lambda test files
+lambda-response.json
+lambda-test-event.json
+
