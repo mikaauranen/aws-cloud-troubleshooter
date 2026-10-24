@@ -12,7 +12,6 @@ resource "aws_lambda_function" "troubleshooter" {
 
 
   architectures = ["x86_64"]
-  code_sha256   = "UzYXObsjI+PoUOViVfiHNV0dU3bQXDUrKkmu0Refisw="
   filename      = "${path.module}/../lambda-deployment.zip"
 
   function_name                  = "aws-cloud-troubleshooter"
@@ -22,7 +21,7 @@ resource "aws_lambda_function" "troubleshooter" {
   package_type                   = "Zip"
   region                         = "eu-north-1"
   reserved_concurrent_executions = -1
-  role                           = "arn:aws:iam::009644552397:role/PowerUserRole"
+  role                           = aws_iam_role.troubleshooter_execution.arn
   runtime                        = "python3.13"
   skip_destroy                   = false
   tags                           = {}
