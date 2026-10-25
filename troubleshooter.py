@@ -28,11 +28,15 @@ def analyze_error_with_ai(error_log):
 
     if result["type"] == "Tuntematon virhe":
         from bedrock_client import analyze_with_ai
-        result["recommendation"] = analyze_with_ai(error_log)
+        from botocore.exceptions import BotoCoreError, ClientError
+
+        try:
+            result["recommendation"] = analyze_with_ai(error_log)
+        except (BotoCoreError, ClientError):
+            result["recommendation"] = "Tekoälyanalyysi ei ole saatavilla. Tarkista CloudWatch-lokit."
 
     return result
 
-        
 if __name__ == "__main__":
         
     print("AWS Troubleshooter")

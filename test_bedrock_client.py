@@ -1,4 +1,5 @@
 import unittest
+from botocore.exceptions import ClientError
 from unittest.mock import patch
 from troubleshooter import analyze_error_with_ai
 from bedrock_client import build_prompt
@@ -21,5 +22,20 @@ class TestBedrockClient(unittest.TestCase):
 
         self.assertEqual(result["type"], "IAM-käyttöoikeusongelma")
         mock_ai.assert_not_called()
+    
+    def test_ai_failure_returns_fallback(self):
+        error = ClientError(
+            {"Error": {"Code": "AccessDeniedException", "Message": "Test error"}},
+            "Converse"
+        )
+
+        with patch("bedrock_client.analyze_with_ai", side_effect=error):
+            result = analyze_error_with_ai("Connection refused")
+
+        self.assertEqual(
+            result["recommendation"],
+            "Tekoälyanalyysi ei ole saatavilla. Tarkista CloudWatch-lokit."
+        )
+
 
 
